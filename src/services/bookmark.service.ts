@@ -34,3 +34,20 @@ export async function createBookmark(
 
   return data
 }
+export async function deleteBookmark(
+  id: string,
+  userId: string
+) {
+  const supabase = createClient()
+
+  const { data, error } = await supabase
+    .from('bookmarks')
+    .delete()
+    .eq('id', id)
+    .eq('user_id', userId)
+    .select()
+
+  if (error) throw error
+
+  return data
+}
