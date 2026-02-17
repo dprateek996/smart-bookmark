@@ -1,13 +1,41 @@
-export function success(data: any) {
-  return {
-    status: 'success',
-    data
+export type ApiSuccess<T> = {
+  success: true
+  data: T
+  error: null
+}
+
+export type ApiFailure = {
+  success: false
+  data: null
+  error: {
+    code: string
+    message: string
+    details?: unknown
   }
 }
 
-export function failure(message: string) {
+export type ApiResponse<T> = ApiSuccess<T> | ApiFailure
+
+export function success<T>(data: T): ApiSuccess<T> {
   return {
-    status: 'error',
-    message
+    success: true,
+    data,
+    error: null
+  }
+}
+
+export function failure(
+  code: string,
+  message: string,
+  details?: unknown
+): ApiFailure {
+  return {
+    success: false,
+    data: null,
+    error: {
+      code,
+      message,
+      details
+    }
   }
 }
